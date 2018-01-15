@@ -576,6 +576,88 @@ pushgateway:
     servicePort: 9091
     type: ClusterIP
 
+blackboxExporter:
+  ## If false, blackbox will not be installed
+  ##
+  enabled: true
+
+  ## blackbox container name
+  ##
+  name: blackbox
+
+  ## blackbox container image
+  ##
+  image:
+    repository: prom/blackbox-exporter
+    tag: v0.11.0
+    pullPolicy: IfNotPresent
+
+  ## Additional blackbox container arguments
+  ##
+  extraArgs: {}
+
+  ingress:
+    ## If true, blackbox Ingress will be created
+    ##
+    enabled: false
+
+    ## blackbox Ingress annotations
+    ##
+    annotations:
+    #   kubernetes.io/ingress.class: nginx
+    #   kubernetes.io/tls-acme: 'true'
+
+    ## blackbox Ingress hostnames
+    ## Must be provided if Ingress is enabled
+    ##
+    hosts: []
+    #   - blackbox.domain.com
+
+    ## blackbox Ingress TLS configuration
+    ## Secrets must be manually created in the namespace
+    ##
+    tls: []
+    #   - secretName: prometheus-alerts-tls
+    #     hosts:
+    #       - blackbox.domain.com
+
+  ## Node labels for blackbox pod assignment
+  ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
+  ##
+  nodeSelector: {}
+
+  ## Annotations to be added to blackbox pods
+  ##
+  podAnnotations: {}
+
+  replicaCount: 1
+
+  ## blackbox resource requests and limits
+  ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
+  ##
+  resources: {}
+    # limits:
+    #   cpu: 10m
+    #   memory: 32Mi
+    # requests:
+    #   cpu: 10m
+    #   memory: 32Mi
+
+  service:
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+
+    ## List of IP addresses at which the blackbox service is available
+    ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
+    ##
+    externalIPs: []
+
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    servicePort: 9115
+    type: ClusterIP
+
 ## alertmanager ConfigMap entries
 ##
 alertmanagerFiles:
